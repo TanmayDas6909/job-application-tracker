@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Tracker | Dashboard</title>
+  <script>
+  if (!localStorage.getItem("jtSession")) document.documentElement.classList.add("signed-in");
+</script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    
+<div class="app">
+
+  <aside class="sidebar" id="sidebar">
+    <a href="#" class="brand">
+      <div class="brand-icon"><i class="fa-solid fa-briefcase"></i></div>
+      <div>
+        <h2>Job Tracker</h2>
+        <p>Track · Apply · Grow</p>
+      </div>
+    </a>
+
+    <nav class="navigation">
+      <a href="#dashboard" class="nav-link active">
+        <i class="fa-solid fa-house"></i> Dashboard
+      </a>
+      <a href="#applications" class="nav-link">
+        <i class="fa-regular fa-file-lines"></i> Applications
+      </a>
+      <button class="nav-link" id="sidebarAdd">
+        <i class="fa-solid fa-plus"></i> Add Application
+      </button>
+      <a href="#settings" class="nav-link" id="settingsLink">
+        <i class="fa-solid fa-gear"></i> Settings
+      </a>
+    </nav>
+
+    <div class="sidebar-quote dream-card">
+    <i class="fa-solid fa-bullseye quote-icon"></i>
+
+    <h3>
+        Small steps today lead to big opportunities
+        <span>tomorrow.</span>
+    </h3>
+
+    <p>
+        Keep applying, stay consistent and make your dream a reality! 🚀
+    </p>
+
+    <div class="mountains">
+        <i class="fa-solid fa-flag"></i>
+    </div>
+
+    <div class="sidebar-bottom">
+        <i class="fa-solid fa-seedling"></i>
+        Keep growing!
+    </div>
+</div>
+  </aside>
+
+  <main class="main-content" id="dashboard">
+
+    <header class="topbar">
+      <button class="mobile-menu" id="menuToggle" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <div class="top-search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="search" id="globalSearch"
+          placeholder="Search by company name...">
+      </div>
+
+      <div class="profile-area">
+  <button class="notification" id="notificationBtn" aria-label="Notifications">
+    <i class="fa-solid fa-bell"></i><span></span>
+  </button>
+
+  <button class="signin-btn" id="signinBtn">Sign in</button>
+
+  <button class="account-btn" id="accountBtn" aria-label="Account menu">
+    <div class="avatar" id="avatar">TD</div>
+    <span class="profile-name" id="profileName">Tanmay Das</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </button>
+
+  <button class="profile-menu" id="profileMenu" aria-label="Profile menu" hidden></button>
+
+  <form class="auth-panel" id="signinPanel">
+    <h3 id="acTitle">Sign in</h3>
+    <label id="acNameLabel" for="acName">Full name</label>
+    <input id="acName" type="text" placeholder="Tanmay Das" maxlength="40">
+    <label for="acEmail">Email</label>
+    <input id="acEmail" type="email" placeholder="name@email.com" required>
+    <label for="acPass">Password</label>
+    <input id="acPass" type="password" placeholder="At least 6 characters" required minlength="6">
+    <small id="acError" class="auth-error" role="alert"></small>
+    <button type="submit" class="primary-btn" id="acSubmit">Sign in</button>
+    <p class="auth-switch"><span id="acSwitchText">New here?</span>
+      <button type="button" id="acSwitch">Create account</button></p>
+  </form>
+
+  <div class="auth-panel menu-panel" id="accountMenu">
+    <div class="acc-head">
+      <strong id="accName">User</strong>
+      <small id="accEmail"></small>
+    </div>
+    <a href="#settings" class="acc-item" id="accSettings"><i class="fa-solid fa-gear"></i> Settings</a>
+    <button type="button" class="acc-item acc-danger" id="logoutBtn">
+      <i class="fa-solid fa-right-from-bracket"></i> Sign out
+    </button>
+  </div>
+</div>
+    </header>
+
+    <div class="page-content">
+
+      <section class="welcome-banner">
+        <div class="welcome-text">
+          <p class="eyebrow">YOUR CAREER WORKSPACE</p>
+          <h1>Hello, Tanmay <span>👋</span></h1>
+          <p>Track your job applications and stay on top of your career goals.</p>
+          <div class="motivational">
+            <i class="fa-solid fa-quote-left"></i>
+            Better opportunities are always ahead. Keep going!
+          </div>
+        </div>
+        <div class="hero-illustration">
+          <div class="hero-circle"></div>
+          <i class="fa-solid fa-laptop-file hero-laptop"></i>
+          <i class="fa-solid fa-mug-hot hero-mug"></i>
+          <i class="fa-solid fa-seedling hero-plant"></i>
+        </div>
+
+        <button class="primary-btn banner-btn" id="addBtn">
+          <i class="fa-solid fa-plus"></i> Add Application
+        </button>
+      </section>
+
+      <section class="stats-grid" aria-label="Application statistics">
+        <article class="stat-card blue">
+          <div class="stat-top">
+            <div class="stat-icon"><i class="fa-solid fa-file-lines"></i></div>
+            <span class="stat-number" id="totalCount">0</span>
+          </div>
+          <p>Total Applications</p>
+          <small id="totalNote">Your career journey starts here</small>
+        </article>
+
+        <article class="stat-card green">
+          <div class="stat-top">
+            <div class="stat-icon"><i class="fa-solid fa-paper-plane"></i></div>
+            <span class="stat-number" id="appliedCount">0</span>
+          </div>
+          <p>Applied</p>
+          <small id="appliedNote">0% of total</small>
+        </article>
+
+        <article class="stat-card purple">
+          <div class="stat-top">
+            <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+            <span class="stat-number" id="interviewCount">0</span>
+          </div>
+          <p>Interview</p>
+          <small id="interviewNote">0% of total</small>
+        </article>
+
+        <article class="stat-card orange">
+          <div class="stat-top">
+            <div class="stat-icon"><i class="fa-solid fa-star"></i></div>
+            <span class="stat-number" id="offerCount">0</span>
+          </div>
+          <p>Offer</p>
+          <small id="offerNote">0% of total</small>
+        </article>
+
+        <article class="stat-card red">
+          <div class="stat-top">
+            <div class="stat-icon"><i class="fa-solid fa-xmark"></i></div>
+            <span class="stat-number" id="rejectedCount">0</span>
+          </div>
+          <p>Rejected</p>
+          <small id="rejectedNote">0% of total</small>
+        </article>
+      </section>
+
+      <section class="dashboard-layout">
+
+        <div class="applications-panel panel" id="applications">
+          <div class="panel-heading">
+            <div class="heading-title">
+              <div class="heading-icon"><i class="fa-regular fa-file-lines"></i></div>
+              <h2>Recent Applications</h2>
+            </div>
+            <button class="mobile-add primary-btn" id="mobileAddBtn">
+              <i class="fa-solid fa-plus"></i> Add
+            </button>
+          </div>
+
+          <div class="table-tools">
+            <div class="table-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input id="tableSearch" type="search"
+                placeholder="Search company or job role...">
+            </div>
+
+            <div class="tool-select">
+              <i class="fa-solid fa-filter"></i>
+              <select id="statusFilter" aria-label="Filter by status">
+                <option value="All">All Status</option>
+                <option value="Applied">Applied</option>
+                <option value="Interview">Interview</option>
+                <option value="Offer">Offer</option>
+                <option value="Rejected">Rejected</option>
+              </select>
+            </div>
+
+            <div class="tool-select sort-select">
+              <i class="fa-solid fa-arrow-down-wide-short"></i>
+              <select id="sortBy" aria-label="Sort applications">
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+                <option value="company">Company A–Z</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Company</th>
+                  <th>Job Role</th>
+                  <th>Application Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="applicationsBody"></tbody>
+            </table>
+          </div>
+
+          <div class="table-footer">
+            <p id="resultsText">Showing 0 applications</p>
+            <div class="pagination">
+              <button id="prevPage" aria-label="Previous page">
+                <i class="fa-solid fa-chevron-left"></i>
+              </button>
+              <span id="pageNumber">1</span>
+              <button id="nextPage" aria-label="Next page">
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="right-column">
+
+          <section class="panel status-panel">
+            <div class="small-panel-heading">
+              <i class="fa-solid fa-chart-pie"></i>
+              <h3>Application Status</h3>
+            </div>
+
+            <div class="chart-area">
+              <div class="donut-chart" id="donutChart">
+                <div class="donut-hole">
+                  <strong id="chartTotal">0</strong>
+                  <span>Total</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="chart-legend">
+              <div><span class="legend-dot applied-dot"></span>Applied
+                <strong id="legendApplied">0</strong><small id="percentApplied">0%</small></div>
+              <div><span class="legend-dot interview-dot"></span>Interview
+                <strong id="legendInterview">0</strong><small id="percentInterview">0%</small></div>
+              <div><span class="legend-dot offer-dot"></span>Offer
+                <strong id="legendOffer">0</strong><small id="percentOffer">0%</small></div>
+              <div><span class="legend-dot rejected-dot"></span>Rejected
+                <strong id="legendRejected">0</strong><small id="percentRejected">0%</small></div>
+            </div>
+          </section>
+
+          <section class="panel quick-panel">
+            <div class="small-panel-heading">
+              <i class="fa-solid fa-bolt"></i>
+              <h3>Quick Actions</h3>
+            </div>
+
+            <button class="quick-action" id="quickAdd">
+              <span class="quick-icon blue-bg"><i class="fa-solid fa-file-circle-plus"></i></span>
+              <span><strong>Add New Application</strong><small>Fill the form and save</small></span>
+              <i class="fa-solid fa-chevron-right arrow"></i>
+            </button>
+
+            <button class="quick-action" id="viewAll">
+              <span class="quick-icon cyan-bg"><i class="fa-solid fa-list-check"></i></span>
+              <span><strong>View All Applications</strong><small>See your complete list</small></span>
+              <i class="fa-solid fa-chevron-right arrow"></i>
+            </button>
+
+            <button class="quick-action" id="quickSearch">
+              <span class="quick-icon purple-bg"><i class="fa-solid fa-magnifying-glass"></i></span>
+              <span><strong>Search Companies</strong><small>Find jobs by company name</small></span>
+              <i class="fa-solid fa-chevron-right arrow"></i>
+            </button>
+
+            <button class="quick-action" id="quickFilter">
+              <span class="quick-icon orange-bg"><i class="fa-solid fa-filter"></i></span>
+              <span><strong>Filter by Status</strong><small>View specific applications</small></span>
+              <i class="fa-solid fa-chevron-right arrow"></i>
+            </button>
+          </section>
+
+          <button class="dream-card" id="dreamCard">
+            <i class="fa-solid fa-rocket"></i>
+            <span><strong>Your dream job</strong><small>is closer than you think!</small></span>
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </aside>
+      </section>
+      <section id="settings">
+        <h2>Settings</h2>
+
+        <div class="st-grid">
+
+  <section class="st-card">
+    <div class="st-head">
+      <div class="st-icon st-blue"><i class="fa-solid fa-user"></i></div>
+      <div><h3>Profile</h3><p>Your basic info</p></div>
+    </div>
+    <label for="st-name">Full name</label>
+    <input type="text" id="st-name" placeholder="Name">
+    <label for="st-email">Email</label>
+    <input type="email" id="st-email" placeholder="name@company.com">
+    <label for="st-role">Target job role</label>
+    <input type="text" id="st-role" placeholder="Target job role">
+  </section>
+
+  <section class="st-card">
+    <div class="st-head">
+      <div class="st-icon st-purple"><i class="fa-solid fa-moon"></i></div>
+      <div><h3>Appearance</h3><p>Choose your theme</p></div>
+    </div>
+    <div class="st-row">
+      <div><strong>Dark mode</strong><small>Saved in your browser</small></div>
+      <button type="button" class="st-toggle" id="st-dark" role="switch" aria-checked="false" aria-label="Dark mode"></button>
+    </div>
+  </section>
+
+  <section class="st-card">
+    <div class="st-head">
+      <div class="st-icon st-green"><i class="fa-solid fa-bullseye"></i></div>
+      <div><h3>Weekly goal</h3><p>Progress based on your applications</p></div>
+    </div>
+    <div class="st-row">
+      <strong>Applications per week</strong>
+      <div class="st-stepper">
+        <button type="button" id="st-goalMinus" aria-label="Decrease goal">&minus;</button>
+        <span id="st-goalValue">5</span>
+        <button type="button" id="st-goalPlus" aria-label="Increase goal">+</button>
+      </div>
+    </div>
+    <div class="st-bar"><div class="st-bar-fill" id="st-goalBar"></div></div>
+    <small id="st-goalText" class="st-hint"></small>
+  </section>
+
+  <section class="st-card">
+    <div class="st-head">
+      <div class="st-icon st-orange"><i class="fa-solid fa-bell"></i></div>
+      <div><h3>Follow-up reminder</h3><p>Get nudged when there's no reply</p></div>
+    </div>
+    <div class="st-row">
+      <div><strong>Reminder</strong><small>Flags applications waiting too long</small></div>
+      <button type="button" class="st-toggle" id="st-remOn" role="switch" aria-checked="false" aria-label="Follow-up reminder"></button>
+    </div>
+    <label for="st-remDays">Remind me after</label>
+    <select id="st-remDays">
+      <option value="3">3 days</option>
+      <option value="7">7 days</option>
+      <option value="14">14 days</option>
+    </select>
+  </section>
+
+  <section class="st-card st-wide">
+    <div class="st-head">
+      <div class="st-icon st-blue"><i class="fa-solid fa-tags"></i></div>
+      <div><h3>Statuses</h3><p>Add your own or remove ones you don't use</p></div>
+    </div>
+    <div id="st-chips" class="st-chips"></div>
+    <div class="st-add">
+      <input type="text" id="st-newStatus" placeholder="Test round" maxlength="24">
+      <button type="button" class="st-btn st-primary" id="st-addStatus"><i class="fa-solid fa-plus"></i> Add</button>
+    </div>
+    <small id="st-statusError" class="st-error" role="alert"></small>
+  </section>
+
+  <section class="st-card">
+    <div class="st-head">
+      <div class="st-icon st-green"><i class="fa-solid fa-table"></i></div>
+      <div><h3>Table preferences</h3><p>For Recent Applications</p></div>
+    </div>
+    <label for="st-sortBy">Default sort</label>
+    <select id="st-sortBy">
+      <option value="newest">Newest</option>
+      <option value="oldest">Oldest</option>
+      <option value="company">Company A-Z</option>
+    </select>
+    <label for="st-perPage">Items per page</label>
+    <select id="st-perPage">
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+    </select>
+  </section>
+
+  <section class="st-card">
+    <div class="st-head">
+      <div class="st-icon st-purple"><i class="fa-solid fa-database"></i></div>
+      <div><h3>Your data</h3><p>Back up or restore</p></div>
+    </div>
+    <div class="st-btn-grid">
+      <button type="button" class="st-btn" id="st-exportCsv"><i class="fa-solid fa-download"></i> Export CSV</button>
+      <button type="button" class="st-btn" id="st-exportJson"><i class="fa-solid fa-download"></i> Export JSON</button>
+    </div>
+    <button type="button" class="st-btn st-full" id="st-importBtn"><i class="fa-solid fa-upload"></i> Import from JSON</button>
+    <input type="file" id="st-importFile" accept="application/json,.json" hidden>
+    <small id="st-dataMsg" class="st-hint" role="status"></small>
+  </section>
+
+  <section class="st-card st-wide st-danger">
+    <div class="st-head">
+      <div class="st-icon st-red"><i class="fa-solid fa-triangle-exclamation"></i></div>
+      <div><h3>Danger zone</h3><p>Deleting your applications can't be undone</p></div>
+    </div>
+    <button type="button" class="st-btn st-danger-btn" id="st-clearBtn"><i class="fa-solid fa-trash"></i> Clear all data</button>
+  </section>
+</div>
+
+<div class="st-save">
+  <button type="button" class="st-btn st-primary st-big" id="st-save"><i class="fa-solid fa-check"></i> Save changes</button>
+</div>
+        </div>
+      </section>
+      <footer class="footer">
+        <span>Job Application Tracker</span>
+        <span>Keep applying · Keep growing 🚀</span>
+      </footer>
+
+    </div>
+  </main>
+</div>
+
+<dialog id="st-confirm" class="st-dialog">
+  <h3>Clear all data?</h3>
+  <p>Every application will be deleted from this browser. Export a backup first if you want to keep them.</p>
+  <div class="st-dialog-actions">
+    <button type="button" class="st-btn" id="st-cancel">Cancel</button>
+    <button type="button" class="st-btn st-danger-fill" id="st-doClear">Delete everything</button>
+  </div>
+</dialog>
+
+<div class="st-toast" id="st-toast" role="status"></div>
+
+<!-- Add/Edit Application Modal -->
+<div class="modal-overlay" id="applicationModal">
+  <div class="modal">
+    <div class="modal-heading">
+      <div>
+        <p class="eyebrow">CAREER WORKSPACE</p>
+        <h2 id="modalTitle">Add Application</h2>
+      </div>
+      <button class="close-modal" id="closeModal" aria-label="Close">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <form id="applicationForm">
+      <input type="hidden" id="editId">
+
+      <label for="company">Company Name *</label>
+      <input id="company" name="company" required maxlength="80"
+        placeholder="e.g. Google">
+
+      <label for="jobRole">Job Role *</label>
+      <input id="jobRole" name="jobRole" required maxlength="100"
+        placeholder="e.g. Frontend Developer">
+
+      <div class="form-row">
+        <div>
+          <label for="applicationDate">Application Date *</label>
+          <input id="applicationDate" name="applicationDate" type="date" required>
+        </div>
+        <div>
+          <label for="applicationStatus">Status *</label>
+          <select id="applicationStatus" name="applicationStatus" required>
+            <option value="Applied">Applied</option>
+            <option value="Interview">Interview</option>
+            <option value="Offer">Offer</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="jobLink">Job Link (optional)</label>
+      <input id="jobLink" name="jobLink" type="url"
+        placeholder="https://example.com/job">
+
+      <label for="notes">Notes (optional)</label>
+      <textarea id="notes" name="notes" rows="3"
+        placeholder="Recruiter details, interview date, etc."></textarea>
+
+      <div class="modal-actions">
+        <button type="button" class="secondary-btn" id="cancelModal">Cancel</button>
+        <button type="submit" class="primary-btn">
+          <i class="fa-solid fa-floppy-disk"></i>
+          <span id="saveButtonText">Save Application</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
